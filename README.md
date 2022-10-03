@@ -1,4 +1,7 @@
-Works with Victron Energy
+Works with Victron Energy ESS
+
+sml_smartmeter  -->  MQTT broker  -->  em24  <--  Victron
+
 
 Thanks to 
 https://github.com/stephane/libmodbus
