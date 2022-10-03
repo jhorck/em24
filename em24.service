@@ -1,0 +1,13 @@
+[Unit]
+Description=EM24 emulator, MQTT to Modbus
+After=syslog.target network.target
+
+[Service]
+ExecStart=/usr/local/bin/em24
+ExecReload=
+StandardOutput=syslog
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
