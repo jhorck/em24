@@ -1,4 +1,6 @@
-Works with Victron Energy ESS
+Works with Victron Energy ESS<br>
+
+Subscribe to a local MQTT broker and make energy data available on a Modbus server
 
 sml_smartmeter  -->  MQTT broker  -->  em24  <--  Victron
 
