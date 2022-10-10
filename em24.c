@@ -58,19 +58,19 @@ void on_message(struct mosquitto *mosq, void *obj, const struct mosquitto_messag
 		u1 = 240.0;
 		i1 = p1 / u1;
 //		printf("p1=%f, u1=%f, i1=%f\n", p1, u1, i1);
-		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0000, (int16_t)round(u1 * 10));   // u1
-		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x000c, (int16_t)round(i1 * 1000)); // i1
-		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0012, (int16_t)round(p1 * 10));   // p1
-		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0028, (int16_t)round(p1 * 10));   // p total
+		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0000, (int32_t)round(u1 * 10));   // u1
+		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x000c, (int32_t)round(i1 * 1000)); // i1
+		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0012, (int32_t)round(p1 * 10));   // p1
+		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0028, (int32_t)round(p1 * 10));   // p total
 	} else if(strncmp(msg->topic, "smartmeter/mains/sensor/1/obis/1-0:1.8.0/255/value", 50) == 0) {
 		sscanf(msg->payload, "%f", &e1);
 //		printf("e1=%f\n", e1);
-		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0040, (int16_t)round(e1 * 0.01));   // e1
-		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0034, (int16_t)round(e1 * 0.01));   // e total
+		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0040, (int32_t)round(e1 * 0.01));   // e1
+		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0034, (int32_t)round(e1 * 0.01));   // e total
 	} else if(strncmp(msg->topic, "smartmeter/mains/sensor/1/obis/1-0:2.8.0/255/value", 50) == 0) {
 		sscanf(msg->payload, "%f", &n);
 //		printf("n=%f\n", n);
-		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x004e, (int16_t)round(e1 * 0.01));   // e total negative
+		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x004e, (int32_t)round(e1 * 0.01));   // e total negative
 	}
 }
 
