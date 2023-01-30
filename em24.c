@@ -70,7 +70,7 @@ void on_message(struct mosquitto *mosq, void *obj, const struct mosquitto_messag
 	} else if(strncmp(msg->topic, "smartmeter/mains/sensor/1/obis/1-0:2.8.0/255/value", 50) == 0) {
 		sscanf(msg->payload, "%f", &n);
 //		printf("n=%f\n", n);
-		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x004e, (int32_t)round(e1 * 0.01));   // e total negative
+		MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x004e, (int32_t)round(n * 0.01));   // e total negative
 	}
 }
 
@@ -138,7 +138,9 @@ int main(int argc, char *argv[]) {
 	mb_mapping->tab_registers[0xa000] = 7;     // application set to H
 	mb_mapping->tab_registers[0x0302] = 0;     // hardware version
 	mb_mapping->tab_registers[0x0304] = 0;     // firmware version
+//	mb_mapping->tab_registers[0x1002] = 0;     // phase config: 3P
 	mb_mapping->tab_registers[0x1002] = 3;     // phase config: 1P
+	mb_mapping->tab_registers[0x0032] = 0;     // phase sequence L1-L2-L3
 	mb_mapping->tab_registers[0x5000] = ('0' << 8) | '0';  // serial
 	mb_mapping->tab_registers[0x5001] = ('0' << 8) | '0';  // serial
 	mb_mapping->tab_registers[0x5002] = ('0' << 8) | '0';  // serial
@@ -147,6 +149,22 @@ int main(int argc, char *argv[]) {
 	mb_mapping->tab_registers[0x5005] = ('0' << 8) | '0';  // serial
 	mb_mapping->tab_registers[0x5006] = ('0' << 8);        // serial
 	mb_mapping->tab_registers[0xa100] = 0;     // switch position: unlocked kVARh
+
+	MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0000, (int32_t)0);   // u1
+	MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0002, (int32_t)0);   // u2
+	MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0004, (int32_t)0);   // u3
+
+	MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x000c, (int32_t)0);   // i1
+	MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x000e, (int32_t)0);   // i2
+	MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0010, (int32_t)0);   // i3
+
+	MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0012, (int32_t)0);   // p1
+	MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0014, (int32_t)0);   // p2
+	MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0016, (int32_t)0);   // p3
+
+	MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0040, (int32_t)0);   // e1
+	MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0042, (int32_t)0);   // e2
+	MODBUS_SET_INT32_TO_INT16_REV(mb_mapping->tab_registers, 0x0044, (int32_t)0);   // e3
 
 	mb_mapping->tab_registers[0x0033] = 50 * 10;     // frequency
 
